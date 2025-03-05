@@ -1,12 +1,181 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-  </head>
-  <body>
-    <div id="logger" style="overflow: auto; overflow-x: hidden; height: 500px;">
+<head>
+  <meta name="viewport" />
+  <title>Civic Source Auto Bids</title>
+  <!-- Google Font for Montserrat -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <h1>Civic Source Auto Bids <img src="Icon.png" style="height: 30px; vertical-align: middle;"></h1>
+  </header>
+  <div class="page-container">
+  <!-- Two-column layout -->
+  <div class="two-col-container">
+    <!-- Left column: Clocks, controls, credentials -->
+    <div class="col-left">
+      <div class="clocks-n-controls">
+        <div class="clocks-container">
+          <!-- Digital EST Clock -->
+          <div class="digital-clock-box">
+            <div>Current EST Time:</div>
+            <div id="estClock"></div>
+          </div>
+          <!-- Analog Clock -->
+          <div class="clockbox">
+            <svg id="clock" xmlns="http://www.w3.org/2000/svg"
+                 width="600" height="600" viewBox="0 0 600 600">
+              <defs>
+                <linearGradient id="grad1" x1="0%" x2="100%" y1="0%" y2="0%">
+                  <stop offset="0%"   stop-color="#ffffff" />
+                  <stop offset="40%"  stop-color="#c0c0c0" />
+                  <stop offset="60%"  stop-color="#9e9e9e" />
+                  <stop offset="80%"  stop-color="#c0c0c0" />
+                  <stop offset="100%" stop-color="#ffffff" />
+                </linearGradient>
+              </defs>
+              <g id="face">
+                <ellipse class="circle" cx="300" cy="300" rx="253.9" fill="url(#grad1)"/>
+                <path class="hour-marks"
+                      d="M300.5 94V61M506 300.5h32M300.5 506v33M94 300.5H60
+                         M411.3 107.8l7.9-13.8M493 190.2l13-7.4M492.1 411.4l16.5 9.5
+                         M411 492.3l8.9 15.3M189 492.3l-9.2 15.9M107.7 411L93 419.5
+                         M107.5 189.3l-17.1-9.9M188.1 108.2l-9-15.6"/>
+                <circle class="mid-circle" cx="300" cy="300" r="16.2"/>
+              </g>
+              <g id="hour">
+                <path class="hour-arm" d="M300.5 298V142"/>
+                <circle class="sizing-box" cx="300" cy="300" r="253.9"/>
+              </g>
+              <g id="minute">
+                <path class="minute-arm" d="M300.5 298V67"/>
+                <circle class="sizing-box" cx="300" cy="300" r="253.9"/>
+              </g>
+              <g id="second">
+                <path class="second-arm" d="M300.5 350V55"/>
+                <circle class="sizing-box" cx="300" cy="300" r="253.9"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+        <!-- Start/Stop/Close controls -->
+        <div class="main-controls actions">
+          <button id="startUpdateBtn">START BIDDING</button>
+          <button id="stopUpdateBtn">STOP BIDDING</button>
+          <button id="closeAllWindowsBtn">CLOSE ALL WINDOWS</button>
+        </div>
+      </div>
 
-	<script>
-</script>
-  </body>
+      <!-- Extract/Import/Save Properties -->
+      <div>
+        <h2>Extract Properties</h2>
+        <input id="extractPropertiesUrl" type="text" placeholder="Paste URL here" style="width:200px;" />
+        <button id="extractPropertiesBtn">Extract Properties</button>
+      </div>
+      <div style="margin-top:1em;">
+        <button id="importPropertiesBtn">Import Properties</button>
+        <button id="savePropertiesBtn">Save Properties</button>
+      </div>
+
+      <!-- Credentials Section -->
+      <div class="section">
+        <h2>Manage Credentials</h2>
+        <div>
+          <div class="container">
+            <label for="username">Username:</label>
+            <input id="username" type="text"/>
+          </div>
+          <div class="container">
+            <label for="password">Password:</label>
+            <input id="password" type="text"/>
+          </div>
+          <div>
+            <button id="addCredentialBtn">Add Credential</button>
+          </div>
+        </div>
+        <table id="credentialTable">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Password</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Credentials will be rendered here -->
+          </tbody>
+        </table>
+      </div>
+    </div> <!-- end col-left -->
+
+    <!-- Right column: Auctions -->
+    <div class="col-right">
+      <div class="section">
+        <h2>Manage Auctions</h2>
+        <div class="row">
+          <div class="container">
+            <label for="auctionDate">Date:</label>
+            <input id="auctionDate" type="date"/>
+          </div>
+          <div class="container">
+            <label for="auctionTimeField">Time:</label>
+            <input id="auctionTimeField" type="time"/>
+          </div>
+          <div class="container">
+            <label for="auctionIdInput">Auction Id:</label>
+            <input id="auctionIdInput" type="text"/>
+          </div>
+          <div class="container">
+            <label for="bidProxyInput">Bid Proxy (%):</label>
+            <input id="bidProxyInput" type="number"/>
+          </div>
+          <div class="container">
+            <label for="auctionAddressInput">Address:</label>
+            <input id="auctionAddressInput" type="text"/>
+          </div>
+          <div class="container">
+            <label for="auctionAccountSelect">Account:</label>
+            <select id="auctionAccountSelect">
+              <!-- Populated via renderer.js -->
+            </select>
+          </div>
+          <div class="container">
+            <button id="addAuctionBtn">Add Auction</button>
+          </div>
+        </div>
+
+        <table id="auctionTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Time To Bid</th>
+              <th>Auction Id</th>
+              <th>Bid Proxy (%)</th>
+              <th>Address</th>
+              <th>Account</th>
+              <th>Bid Placed</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Auction items will be rendered here -->
+          </tbody>
+        </table>
+        <button id="clearAuctionsBtn">Clear All Auctions</button>
+      </div>
+    </div> <!-- end col-right -->
+  </div> <!-- end two-col-container -->
+</div>
+  <footer class="page-footer">
+    <p>Built and Designed by
+      <a href="https://citron.one/">Citron™</a> 2025
+    </p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="clockscript.js"></script>
+  <script src="renderer.js"></script>
+</body>
 </html>

@@ -1,0 +1,392 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #1e1e1e, #3b3b3b);
+  font-family: 'Montserrat', Arial, sans-serif;
+  color: #e0e0e0;
+  height: 100%;
+  overflow: hidden; /* hide default scroll for body */
+}
+.page-container {
+  max-width: 1400px;
+  margin-top: 70px;
+  margin-bottom: auto;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
+}
+
+/* Top-level container for 2 columns filling the viewport */
+.two-col-container {
+  display: flex;
+  height: 84vh; /* fill entire viewport */
+  width: 100%;
+  overflow: hidden; 
+  padding: 0.25rem;
+}
+.clocks-n-controls{  
+  display: flex;
+}
+/* Left column: clocks, extract, credentials, footer */
+.col-left {
+  flex: 0 0 33%; 
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* scroll vertically if content is too tall */
+  padding: 1rem;
+}
+/* Right column: auctions & start/stop */
+.main-controls {
+  flex: 1; 
+  display: flex;
+  flex-direction: column;
+  overflow-y: visible;
+  justify-content: center;
+  text-transform: uppercase !important;
+}
+.col-right {
+  flex: 0 0 60%; 
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow-y: auto;
+}
+
+/* Headings */
+h1, h2 {
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+  font-size: 31px;
+}
+h1 {
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+h2 {
+  margin-top: 1rem;
+  font-weight: 500;
+  font-size: 19px;
+}
+
+/* Buttons, row/container, table, etc. - same as your existing styles */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+.container {
+  margin-right: 8px;
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  font-size: 12px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 6px;
+  font-size: 12px;
+  overflow: hidden;
+}
+th, td {
+  padding: 0.75rem 1rem;
+}
+th {
+  background-color: rgba(255, 255, 255, 0.07);
+  font-weight: 500;
+  color: #ffffff;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+tbody tr:hover {
+  background-color: rgba(89,230,230,0.1);
+}
+button {
+  cursor: pointer;
+  border: 1px solid #444;
+  background-color: #333;
+  color: #efefef;
+  padding: 8px 14px;
+  font-size: 12px;
+  border-radius: 4px;
+  margin-right: 4px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+button:hover {
+  background-color: #444;
+  border-color: #555;
+}
+.actions {
+  display: flex;
+  gap: 8px;
+  padding: 0.75rem 1rem;
+}
+.actions button {
+  background-color: #e63946;
+  border-color: #e63946;
+}
+.actions button:hover {
+  background-color: #d62828;
+  border-color: #d62828;
+}
+#auctionDate:hover {
+  cursor: pointer;
+}
+#auctionTimeField:hover {
+  cursor: pointer;
+}
+#auctionAccountSelect:hover {
+  cursor: pointer;
+}
+/* Clocks */
+#estClock {
+  font-weight: 600;
+  font-size: 19px;
+  color: #ffffff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+}
+.clocks-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.digital-clock-box {
+  text-align: center;
+}
+.clockbox,
+#clock {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  padding: 0px;
+  margin: 0px;
+}
+#clock {
+  filter: drop-shadow(5px 5px 15px rgba(0, 0, 0, 0.4));
+}
+.circle {
+  stroke: #777;
+  stroke-width: 10;
+}
+.hour-marks {
+  fill: none;
+  stroke: #3d3d3d;
+  stroke-width: 8;
+  filter: drop-shadow(0px 0px 8px #3b3b3b);
+}
+.mid-circle {
+  fill: #535353;
+  filter: drop-shadow(0px 0px 8px #000000);
+}
+.hour-arm {
+  fill: none;
+  stroke: #f3f3f3;
+  stroke-width: 16;
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
+}
+.minute-arm {
+  fill: none;
+  stroke: #545454;
+  stroke-width: 10;
+  filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
+}
+.second-arm {
+  fill: none;
+  stroke: #e63946;
+  stroke-width: 4;
+  filter: drop-shadow(2px 2px 6px rgba(0, 0, 0, 0.6));
+}
+.sizing-box {
+  fill: none;
+}
+#hour,
+#minute,
+#second {
+  transform-origin: 300px 300px;
+  transition: transform 0.5s ease;
+}
+
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  z-index: 9999;
+  padding: 1rem;
+  text-align: center;
+  background-color: #111;
+  color: #e0e0e0;
+  font-size: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 40px;
+  z-index: 9999;
+  padding: 1rem;
+  text-align: center;
+  background-color: #111;
+  color: #e0e0e0;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.header h1 {
+  transform: translateY(-13px);
+}
+.page-footer p {
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+.page-footer a {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #fff;
+  text-decoration: none;
+}
+.page-footer a:hover {
+  margin: 0;
+  letter-spacing: 0.8px ;
+  color: #ddd;
+  text-decoration: none;
+}
+.page-footer strong {
+  color: #fff;
+}
+/* Scrollbar */
+::-webkit-scrollbar {
+  background-color: transparent;
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey; 
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #e63946;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #d62828;
+}
+
+::-webkit-scrollbar-corner {
+  background: #2a2a2a;
+}
+
+@media screen and (max-height: 870px)
+  {
+    .two-col-container {
+    height: 81vh; /* fill entire viewport */
+  }
+}
+
+@media screen and (max-height: 720px)
+{
+  .two-col-container {
+  height: 79vh; /* fill entire viewport */
+}
+}
+
+@media screen and (max-height: 610px)
+{
+  .two-col-container {
+  height: 78vh; /* fill entire viewport */
+}
+}
+
+
+@media screen and (max-height: 585px)
+{
+  .two-col-container {
+  height: 77vh; /* fill entire viewport */
+}
+}
+
+@media screen and (max-height: 550px)
+{
+  .two-col-container {
+  height: 76vh; /* fill entire viewport */
+}
+}
+@media screen and (max-height: 520px)
+{
+  .two-col-container {
+  height: 75vh; /* fill entire viewport */
+}
+}
+
+@media screen and (max-height: 500px)
+{
+  .two-col-container {
+  height: 74vh; /* fill entire viewport */
+}
+}
+@media screen and (max-height: 480px)
+{
+  .two-col-container {
+  height: 73vh; /* fill entire viewport */
+}
+}
+
+@media screen and (max-height: 460px)
+{
+  .two-col-container {
+  height: 72vh; /* fill entire viewport */
+}
+}
+
+@media screen and (max-height: 440px)
+{
+  .two-col-container {
+  height: 70vh; /* fill entire viewport */
+}
+}
+
+@media screen and (max-height: 420px)
+{
+  .two-col-container {
+  height: 69vh; /* fill entire viewport */
+}
+}
+
+@media screen and (max-height: 410px)
+{
+  .two-col-container {
+  height: 66.5vh; /* fill entire viewport */
+}
+}
+
+@media screen and (max-height: 400px)
+{
+  .two-col-container {
+  height: 66vh; /* fill entire viewport */
+}
+}
+
+@media screen and (max-height: 380px)
+{
+  .two-col-container {
+  height: 65vh; /* fill entire viewport */
+}
+}
